@@ -582,15 +582,14 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                 
                 cumulutive_reward = np.sum( per_episodes_rewards )
 
-                out = cv2.VideoWriter(f'/Users/v/Documents/DonkeyRL/videos/video{previous_episode_number}_{cumulutive_reward}.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 20, size)
+                # out = cv2.VideoWriter(f'/Users/v/Documents/DonkeyRL/videos/video{previous_episode_number}_{cumulutive_reward}.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 20, size)
                 
-                for img in np.asarray( per_episodes_images ):
-                    img = np.moveaxis( img, 0, -1 )
-                    print( f"{img.shape}" )
-                    cv2.imwrite( f'/Users/v/Documents/DonkeyRL/images/img{previous_episode_number}.png', img )
-                    out.write( img )
+                # for img in np.asarray( per_episodes_images ):
+                #     img = np.moveaxis( img, 0, -1 )
+                #     cv2.imwrite( f'/Users/v/Documents/DonkeyRL/images/img{previous_episode_number}.png', img )
+                #     out.write( img )
 
-                out.release()
+                # out.release()
                 
                 previous_episode_number = num_collected_episodes
                 per_episodes_images = []
@@ -606,8 +605,6 @@ class OffPolicyAlgorithm(BaseAlgorithm):
             # Rescale and perform action
             new_obs, rewards, dones, infos = env.step(actions)
 
-            _, _, h, w = new_obs.shape
-            size = (w,h)
             per_episodes_images.append( new_obs[0] )
             per_episodes_rewards.append( rewards )
 
