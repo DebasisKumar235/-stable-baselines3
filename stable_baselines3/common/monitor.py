@@ -36,11 +36,7 @@ class Monitor(gym.Wrapper):
         reset_keywords: Tuple[str, ...] = (),
         info_keywords: Tuple[str, ...] = (),
     ):
-<<<<<<< HEAD
-        super(Monitor, self).__init__(env=env)
-=======
         super().__init__(env=env)
->>>>>>> upstream/master
         self.t_start = time.time()
         if filename is not None:
             self.results_writer = ResultsWriter(
@@ -114,11 +110,7 @@ class Monitor(gym.Wrapper):
         """
         Closes the environment
         """
-<<<<<<< HEAD
-        super(Monitor, self).close()
-=======
         super().close()
->>>>>>> upstream/master
         if self.results_writer is not None:
             self.results_writer.close()
 
@@ -232,11 +224,7 @@ def load_results(path: str) -> pandas.DataFrame:
         raise LoadMonitorResultsError(f"No monitor files of the form *{Monitor.EXT} found in {path}")
     data_frames, headers = [], []
     for file_name in monitor_files:
-<<<<<<< HEAD
-        with open(file_name, "rt") as file_handler:
-=======
         with open(file_name) as file_handler:
->>>>>>> upstream/master
             first_line = file_handler.readline()
             assert first_line[0] == "#"
             header = json.loads(first_line[1:])

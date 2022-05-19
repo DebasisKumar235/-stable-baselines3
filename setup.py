@@ -2,11 +2,7 @@ import os
 
 from setuptools import find_packages, setup
 
-<<<<<<< HEAD
-with open(os.path.join("stable_baselines3", "version.txt"), "r") as file_handler:
-=======
 with open(os.path.join("stable_baselines3", "version.txt")) as file_handler:
->>>>>>> upstream/master
     __version__ = file_handler.read().strip()
 
 
@@ -79,11 +75,7 @@ setup(
     install_requires=[
         "gym==0.21",  # Fixed version due to breaking changes in 0.22
         "numpy",
-<<<<<<< HEAD
-        "torch>=1.8.1",
-=======
         "torch>=1.11",
->>>>>>> upstream/master
         # For saving models
         "cloudpickle",
         # For reading logs
@@ -124,11 +116,7 @@ setup(
             # For render
             "opencv-python",
             # For atari games,
-<<<<<<< HEAD
-            "ale-py~=0.7.4",
-=======
             "ale-py==0.7.4",
->>>>>>> upstream/master
             "autorom[accept-rom-license]~=0.4.2",
             "pillow",
             # Tensorboard support

@@ -64,11 +64,7 @@ def test_save_load(tmp_path, model_class):
         model.set_parameters(invalid_object_params, exact_match=False)
 
     # Test that exact_match catches when something was missed.
-<<<<<<< HEAD
-    missing_object_params = dict((k, v) for k, v in list(original_params.items())[:-1])
-=======
     missing_object_params = {k: v for k, v in list(original_params.items())[:-1]}
->>>>>>> upstream/master
     with pytest.raises(ValueError):
         model.set_parameters(missing_object_params, exact_match=True)
 
@@ -450,11 +446,7 @@ def test_save_load_policy(tmp_path, model_class, policy_str, use_sde):
     params = deepcopy(policy.state_dict())
 
     # Modify all parameters to be random values
-<<<<<<< HEAD
-    random_params = dict((param_name, th.rand_like(param)) for param_name, param in params.items())
-=======
     random_params = {param_name: th.rand_like(param) for param_name, param in params.items()}
->>>>>>> upstream/master
 
     # Update model parameters with the new random values
     policy.load_state_dict(random_params)
@@ -545,11 +537,7 @@ def test_save_load_q_net(tmp_path, model_class, policy_str):
     params = deepcopy(q_net.state_dict())
 
     # Modify all parameters to be random values
-<<<<<<< HEAD
-    random_params = dict((param_name, th.rand_like(param)) for param_name, param in params.items())
-=======
     random_params = {param_name: th.rand_like(param) for param_name, param in params.items()}
->>>>>>> upstream/master
 
     # Update model parameters with the new random values
     q_net.load_state_dict(random_params)
@@ -668,8 +656,6 @@ def test_open_file(tmp_path):
     with pytest.raises(ValueError):
         buff.close()
         open_path(buff, "w")
-<<<<<<< HEAD
-=======
 
 
 @pytest.mark.expensive
@@ -691,4 +677,3 @@ def test_save_load_large_model(tmp_path):
 
     # clear file from os
     os.remove(tmp_path / "test_save.zip")
->>>>>>> upstream/master

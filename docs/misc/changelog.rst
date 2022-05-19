@@ -4,8 +4,6 @@ Changelog
 ==========
 
 
-<<<<<<< HEAD
-=======
 Release 1.5.1a6 (WIP)
 ---------------------------
 
@@ -46,7 +44,6 @@ Documentation:
 - Added doc about MLFlow integration via custom logger (@git-thor)
 
 
->>>>>>> upstream/master
 Release 1.5.0 (2022-03-25)
 ---------------------------
 
@@ -974,8 +971,4 @@ And all the contributors:
 @wkirgsn @AechPro @CUN-bjy @batu @IljaAvadiev @timokau @kachayev @cleversonahum
 @eleurent @ac-93 @cove9988 @theDebugger811 @hsuehch @Demetrio92 @thomasgubler @IperGiove @ScheiklP
 @simoninithomas @armandpl @manuel-delverme @Gautam-J @gianlucadecola @buoyancy99 @caburu @xy9485
-<<<<<<< HEAD
-@Gregwar
-=======
 @Gregwar @ycheng517 @quantitative-technologies @bcollazo @git-thor @TibiGG
->>>>>>> upstream/master

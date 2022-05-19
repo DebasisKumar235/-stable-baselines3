@@ -31,11 +31,7 @@ class CustomGymEnv(gym.Env):
         return self.state
 
     def step(self, action):
-<<<<<<< HEAD
-        reward = 1
-=======
         reward = float(np.random.rand())
->>>>>>> upstream/master
         self._choose_next_state()
         self.current_step += 1
         done = self.current_step >= self.ep_length
@@ -49,13 +45,9 @@ class CustomGymEnv(gym.Env):
             return np.zeros((4, 4, 3))
 
     def seed(self, seed=None):
-<<<<<<< HEAD
-        pass
-=======
         if seed is not None:
             np.random.seed(seed)
             self.observation_space.seed(seed)
->>>>>>> upstream/master
 
     @staticmethod
     def custom_method(dim_0=1, dim_1=1):
@@ -450,8 +442,6 @@ def test_vec_env_is_wrapped():
 
     vec_env = VecFrameStack(vec_env, n_stack=2)
     assert vec_env.env_is_wrapped(Monitor) == [False, True]
-<<<<<<< HEAD
-=======
 
 
 @pytest.mark.parametrize("vec_env_class", VEC_ENV_CLASSES)
@@ -483,4 +473,3 @@ def test_vec_seeding(vec_env_class):
         assert not np.allclose(rewards[1], rewards[2])
 
         vec_env.close()
->>>>>>> upstream/master

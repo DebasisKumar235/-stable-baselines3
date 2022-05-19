@@ -137,8 +137,6 @@ Then, in this example, we train a PPO agent to play CartPole-v1 and push it to a
       filename="ppo-CartPole-v1",
       commit_message="Added Cartpole-v1 model trained with PPO",
   )
-<<<<<<< HEAD
-=======
 
 MLFLow
 ======
@@ -192,4 +190,3 @@ you can adapt the following code which defines a custom logger output:
       # Set custom logger
       model.set_logger(loggers)
       model.learn(total_timesteps=10000, log_interval=1)
->>>>>>> upstream/master

@@ -8,11 +8,7 @@ import torch as th
 from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.buffers import DictRolloutBuffer, RolloutBuffer
 from stable_baselines3.common.callbacks import BaseCallback
-<<<<<<< HEAD
-from stable_baselines3.common.policies import ActorCriticPolicy, BasePolicy
-=======
 from stable_baselines3.common.policies import ActorCriticPolicy
->>>>>>> upstream/master
 from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, Schedule
 from stable_baselines3.common.utils import obs_as_tensor, safe_mean
 from stable_baselines3.common.vec_env import VecEnv
@@ -38,10 +34,6 @@ class OnPolicyAlgorithm(BaseAlgorithm):
         instead of action noise exploration (default: False)
     :param sde_sample_freq: Sample a new noise matrix every n steps when using gSDE
         Default: -1 (only sample at the beginning of the rollout)
-<<<<<<< HEAD
-    :param policy_base: The base policy used by this method
-=======
->>>>>>> upstream/master
     :param tensorboard_log: the log location for tensorboard (if None, no logging)
     :param create_eval_env: Whether to create a second environment that will be
         used for evaluating the agent periodically. (Only available when passing string for the environment)
@@ -69,10 +61,6 @@ class OnPolicyAlgorithm(BaseAlgorithm):
         max_grad_norm: float,
         use_sde: bool,
         sde_sample_freq: int,
-<<<<<<< HEAD
-        policy_base: Type[BasePolicy] = ActorCriticPolicy,
-=======
->>>>>>> upstream/master
         tensorboard_log: Optional[str] = None,
         create_eval_env: bool = False,
         monitor_wrapper: bool = True,
@@ -84,16 +72,9 @@ class OnPolicyAlgorithm(BaseAlgorithm):
         supported_action_spaces: Optional[Tuple[gym.spaces.Space, ...]] = None,
     ):
 
-<<<<<<< HEAD
-        super(OnPolicyAlgorithm, self).__init__(
-            policy=policy,
-            env=env,
-            policy_base=policy_base,
-=======
         super().__init__(
             policy=policy,
             env=env,
->>>>>>> upstream/master
             learning_rate=learning_rate,
             policy_kwargs=policy_kwargs,
             verbose=verbose,

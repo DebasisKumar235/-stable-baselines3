@@ -8,18 +8,11 @@ from torch.nn import functional as F
 
 from stable_baselines3.common.buffers import ReplayBuffer
 from stable_baselines3.common.off_policy_algorithm import OffPolicyAlgorithm
-<<<<<<< HEAD
-from stable_baselines3.common.preprocessing import maybe_transpose
-from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, Schedule
-from stable_baselines3.common.utils import get_linear_fn, is_vectorized_observation, polyak_update
-from stable_baselines3.dqn.policies import DQNPolicy
-=======
 from stable_baselines3.common.policies import BasePolicy
 from stable_baselines3.common.preprocessing import maybe_transpose
 from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, Schedule
 from stable_baselines3.common.utils import get_linear_fn, is_vectorized_observation, polyak_update
 from stable_baselines3.dqn.policies import CnnPolicy, DQNPolicy, MlpPolicy, MultiInputPolicy
->>>>>>> upstream/master
 
 
 class DQN(OffPolicyAlgorithm):
@@ -67,15 +60,12 @@ class DQN(OffPolicyAlgorithm):
     :param _init_setup_model: Whether or not to build the network at the creation of the instance
     """
 
-<<<<<<< HEAD
-=======
     policy_aliases: Dict[str, Type[BasePolicy]] = {
         "MlpPolicy": MlpPolicy,
         "CnnPolicy": CnnPolicy,
         "MultiInputPolicy": MultiInputPolicy,
     }
 
->>>>>>> upstream/master
     def __init__(
         self,
         policy: Union[str, Type[DQNPolicy]],
@@ -105,16 +95,9 @@ class DQN(OffPolicyAlgorithm):
         _init_setup_model: bool = True,
     ):
 
-<<<<<<< HEAD
-        super(DQN, self).__init__(
-            policy,
-            env,
-            DQNPolicy,
-=======
         super().__init__(
             policy,
             env,
->>>>>>> upstream/master
             learning_rate,
             buffer_size,
             learning_starts,
@@ -155,11 +138,7 @@ class DQN(OffPolicyAlgorithm):
             self._setup_model()
 
     def _setup_model(self) -> None:
-<<<<<<< HEAD
-        super(DQN, self)._setup_model()
-=======
         super()._setup_model()
->>>>>>> upstream/master
         self._create_aliases()
         self.exploration_schedule = get_linear_fn(
             self.exploration_initial_eps,
@@ -282,11 +261,7 @@ class DQN(OffPolicyAlgorithm):
         reset_num_timesteps: bool = True,
     ) -> OffPolicyAlgorithm:
 
-<<<<<<< HEAD
-        return super(DQN, self).learn(
-=======
         return super().learn(
->>>>>>> upstream/master
             total_timesteps=total_timesteps,
             callback=callback,
             log_interval=log_interval,
@@ -299,11 +274,7 @@ class DQN(OffPolicyAlgorithm):
         )
 
     def _excluded_save_params(self) -> List[str]:
-<<<<<<< HEAD
-        return super(DQN, self)._excluded_save_params() + ["q_net", "q_net_target"]
-=======
         return super()._excluded_save_params() + ["q_net", "q_net_target"]
->>>>>>> upstream/master
 
     def _get_torch_save_params(self) -> Tuple[List[str], List[str]]:
         state_dicts = ["policy", "policy.optimizer"]

@@ -54,23 +54,6 @@ class RMSpropTFLike(Optimizer):
         centered: bool = False,
     ):
         if not 0.0 <= lr:
-<<<<<<< HEAD
-            raise ValueError("Invalid learning rate: {}".format(lr))
-        if not 0.0 <= eps:
-            raise ValueError("Invalid epsilon value: {}".format(eps))
-        if not 0.0 <= momentum:
-            raise ValueError("Invalid momentum value: {}".format(momentum))
-        if not 0.0 <= weight_decay:
-            raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
-        if not 0.0 <= alpha:
-            raise ValueError("Invalid alpha value: {}".format(alpha))
-
-        defaults = dict(lr=lr, momentum=momentum, alpha=alpha, eps=eps, centered=centered, weight_decay=weight_decay)
-        super(RMSpropTFLike, self).__init__(params, defaults)
-
-    def __setstate__(self, state: Dict[str, Any]) -> None:
-        super(RMSpropTFLike, self).__setstate__(state)
-=======
             raise ValueError(f"Invalid learning rate: {lr}")
         if not 0.0 <= eps:
             raise ValueError(f"Invalid epsilon value: {eps}")
@@ -86,7 +69,6 @@ class RMSpropTFLike(Optimizer):
 
     def __setstate__(self, state: Dict[str, Any]) -> None:
         super().__setstate__(state)
->>>>>>> upstream/master
         for group in self.param_groups:
             group.setdefault("momentum", 0)
             group.setdefault("centered", False)

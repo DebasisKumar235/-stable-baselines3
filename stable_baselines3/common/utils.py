@@ -154,21 +154,11 @@ def get_device(device: Union[th.device, str] = "auto") -> th.device:
     return device
 
 
-<<<<<<< HEAD
-def get_latest_run_id(log_path: Optional[str] = None, log_name: str = "") -> int:
-=======
 def get_latest_run_id(log_path: str = "", log_name: str = "") -> int:
->>>>>>> upstream/master
     """
     Returns the latest run number for the given log name and log path,
     by finding the greatest number in the directories.
 
-<<<<<<< HEAD
-    :return: latest run number
-    """
-    max_run_id = 0
-    for path in glob.glob(f"{log_path}/{log_name}_[0-9]*"):
-=======
     :param log_path: Path to the log folder containing several runs.
     :param log_name: Name of the experiment. Each run is stored
         in a folder named ``log_name_1``, ``log_name_2``, ...
@@ -176,7 +166,6 @@ def get_latest_run_id(log_path: str = "", log_name: str = "") -> int:
     """
     max_run_id = 0
     for path in glob.glob(os.path.join(log_path, f"{glob.escape(log_name)}_[0-9]*")):
->>>>>>> upstream/master
         file_name = path.split(os.sep)[-1]
         ext = file_name.split("_")[-1]
         if log_name == "_".join(file_name.split("_")[:-1]) and ext.isdigit() and int(ext) > max_run_id:

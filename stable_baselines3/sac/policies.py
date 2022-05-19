@@ -6,11 +6,7 @@ import torch as th
 from torch import nn
 
 from stable_baselines3.common.distributions import SquashedDiagGaussianDistribution, StateDependentNoiseDistribution
-<<<<<<< HEAD
-from stable_baselines3.common.policies import BasePolicy, ContinuousCritic, register_policy
-=======
 from stable_baselines3.common.policies import BasePolicy, ContinuousCritic
->>>>>>> upstream/master
 from stable_baselines3.common.preprocessing import get_action_dim
 from stable_baselines3.common.torch_layers import (
     BaseFeaturesExtractor,
@@ -69,11 +65,7 @@ class Actor(BasePolicy):
         clip_mean: float = 2.0,
         normalize_images: bool = True,
     ):
-<<<<<<< HEAD
-        super(Actor, self).__init__(
-=======
         super().__init__(
->>>>>>> upstream/master
             observation_space,
             action_space,
             features_extractor=features_extractor,
@@ -245,11 +237,7 @@ class SACPolicy(BasePolicy):
         n_critics: int = 2,
         share_features_extractor: bool = True,
     ):
-<<<<<<< HEAD
-        super(SACPolicy, self).__init__(
-=======
         super().__init__(
->>>>>>> upstream/master
             observation_space,
             action_space,
             features_extractor_class,
@@ -436,11 +424,7 @@ class CnnPolicy(SACPolicy):
         n_critics: int = 2,
         share_features_extractor: bool = True,
     ):
-<<<<<<< HEAD
-        super(CnnPolicy, self).__init__(
-=======
         super().__init__(
->>>>>>> upstream/master
             observation_space,
             action_space,
             lr_schedule,
@@ -511,11 +495,7 @@ class MultiInputPolicy(SACPolicy):
         n_critics: int = 2,
         share_features_extractor: bool = True,
     ):
-<<<<<<< HEAD
-        super(MultiInputPolicy, self).__init__(
-=======
         super().__init__(
->>>>>>> upstream/master
             observation_space,
             action_space,
             lr_schedule,
@@ -534,11 +514,3 @@ class MultiInputPolicy(SACPolicy):
             n_critics,
             share_features_extractor,
         )
-<<<<<<< HEAD
-
-
-register_policy("MlpPolicy", MlpPolicy)
-register_policy("CnnPolicy", CnnPolicy)
-register_policy("MultiInputPolicy", MultiInputPolicy)
-=======
->>>>>>> upstream/master
