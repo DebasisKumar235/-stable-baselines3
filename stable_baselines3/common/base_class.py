@@ -426,6 +426,7 @@ class BaseAlgorithm(ABC):
 
         # Avoid resetting the environment when calling ``.learn()`` consecutive times
         if reset_num_timesteps or self._last_obs is None:
+            print( 'Stable-Reset' )
             self._last_obs = self.env.reset()  # pytype: disable=annotation-type-mismatch
             self._last_episode_starts = np.ones((self.env.num_envs,), dtype=bool)
             # Retrieve unnormalized observation for saving into the buffer

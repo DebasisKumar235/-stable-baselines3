@@ -331,6 +331,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         reset_num_timesteps: bool = True,
     ) -> "OffPolicyAlgorithm":
 
+        print( "Learn" )
         total_timesteps, callback = self._setup_learn(
             total_timesteps,
             eval_env,
@@ -364,7 +365,9 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                 gradient_steps = self.gradient_steps if self.gradient_steps >= 0 else rollout.episode_timesteps
                 # Special case when the user passes `gradient_steps=0`
                 if gradient_steps > 0:
+                    print( "Start Train" )
                     self.train(batch_size=self.batch_size, gradient_steps=gradient_steps)
+                    print( "End Train" )
 
         callback.on_training_end()
 
@@ -576,9 +579,10 @@ class OffPolicyAlgorithm(BaseAlgorithm):
 
         while should_collect_more_steps(train_freq, num_collected_steps, num_collected_episodes):
             #print( f'num_collected_episodes={num_collected_episodes}, num_collected_steps={num_collected_steps}') 
+            #print( "----- start" )
 
             if previous_episode_number != num_collected_episodes:
-                print( f"Create video for {len(per_episodes_images)} images" )
+                #print( f"Create video for {len(per_episodes_images)} images" )
                 
                 cumulutive_reward = np.sum( per_episodes_rewards )
 
@@ -592,8 +596,8 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                 # out.release()
                 
                 previous_episode_number = num_collected_episodes
-                per_episodes_images = []
-                per_episodes_rewards = []
+                #per_episodes_images = []
+                #per_episodes_rewards = []
 
             if self.use_sde and self.sde_sample_freq > 0 and num_collected_steps % self.sde_sample_freq == 0:
                 # Sample a new noise matrix
@@ -604,9 +608,9 @@ class OffPolicyAlgorithm(BaseAlgorithm):
 
             # Rescale and perform action
             new_obs, rewards, dones, infos = env.step(actions)
-
-            per_episodes_images.append( new_obs[0] )
-            per_episodes_rewards.append( rewards )
+            #print( "----- step" )
+            #per_episodes_images.append( new_obs[0] )
+            #per_episodes_rewards.append( rewards )
 
             #print( "OffPolicy", new_obs.shape )
 
@@ -615,6 +619,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
 
             # Give access to local variables
             callback.update_locals(locals())
+            #print( "----- update_locals" )
             # Only stop training if return value is False, not when it is None.
             if callback.on_step() is False:
                 return RolloutReturn(num_collected_steps * env.num_envs, num_collected_episodes, continue_training=False)
@@ -646,6 +651,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                     # Log training infos
                     if log_interval is not None and self._episode_num % log_interval == 0:
                         self._dump_logs()
+            #print( "----- end" )
 
         callback.on_rollout_end()
 
