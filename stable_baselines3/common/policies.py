@@ -67,7 +67,11 @@ class BaseModel(nn.Module, ABC):
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
     ):
+<<<<<<< HEAD
         super(BaseModel, self).__init__()
+=======
+        super().__init__()
+>>>>>>> upstream/master
 
         if optimizer_kwargs is None:
             optimizer_kwargs = {}
@@ -267,7 +271,11 @@ class BasePolicy(BaseModel):
     """
 
     def __init__(self, *args, squash_output: bool = False, **kwargs):
+<<<<<<< HEAD
         super(BasePolicy, self).__init__(*args, **kwargs)
+=======
+        super().__init__(*args, **kwargs)
+>>>>>>> upstream/master
         self._squash_output = squash_output
 
     @staticmethod
@@ -437,7 +445,11 @@ class ActorCriticPolicy(BasePolicy):
             if optimizer_class == th.optim.Adam:
                 optimizer_kwargs["eps"] = 1e-5
 
+<<<<<<< HEAD
         super(ActorCriticPolicy, self).__init__(
+=======
+        super().__init__(
+>>>>>>> upstream/master
             observation_space,
             action_space,
             features_extractor_class,
@@ -724,7 +736,11 @@ class ActorCriticCnnPolicy(ActorCriticPolicy):
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
     ):
+<<<<<<< HEAD
         super(ActorCriticCnnPolicy, self).__init__(
+=======
+        super().__init__(
+>>>>>>> upstream/master
             observation_space,
             action_space,
             lr_schedule,
@@ -799,7 +815,11 @@ class MultiInputActorCriticPolicy(ActorCriticPolicy):
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
     ):
+<<<<<<< HEAD
         super(MultiInputActorCriticPolicy, self).__init__(
+=======
+        super().__init__(
+>>>>>>> upstream/master
             observation_space,
             action_space,
             lr_schedule,
@@ -894,6 +914,7 @@ class ContinuousCritic(BaseModel):
         with th.no_grad():
             features = self.extract_features(obs)
         return self.q_networks[0](th.cat([features, actions], dim=1))
+<<<<<<< HEAD
 
 
 _policy_registry = dict()  # type: Dict[Type[BasePolicy], Dict[str, Type[BasePolicy]]]
@@ -959,3 +980,5 @@ def register_policy(name: str, policy: Type[BasePolicy]) -> None:
         if _policy_registry[sub_class][name] != policy:
             raise ValueError(f"Error: the name {name} is already registered for a different policy, will not override.")
     _policy_registry[sub_class][name] = policy
+=======
+>>>>>>> upstream/master

@@ -26,8 +26,13 @@ Maskable PPO [#f1]_  ❌           ✔️            ✔️                 ✔�
 .. [#f1] Implemented in `SB3 Contrib <https://github.com/Stable-Baselines-Team/stable-baselines3-contrib>`_
 
 .. note::
+<<<<<<< HEAD
   ``Tuple`` observation spaces are not supported by any environment
   however single-level ``Dict`` spaces are (cf. :ref:`Examples <examples>`).
+=======
+  ``Tuple`` observation spaces are not supported by any environment,
+  however, single-level ``Dict`` spaces are (cf. :ref:`Examples <examples>`).
+>>>>>>> upstream/master
 
 
 Actions ``gym.spaces``:

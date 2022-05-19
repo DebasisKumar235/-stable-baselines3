@@ -78,7 +78,11 @@ class DDPG(TD3):
         _init_setup_model: bool = True,
     ):
 
+<<<<<<< HEAD
         super(DDPG, self).__init__(
+=======
+        super().__init__(
+>>>>>>> upstream/master
             policy=policy,
             env=env,
             learning_rate=learning_rate,
@@ -127,7 +131,11 @@ class DDPG(TD3):
         reset_num_timesteps: bool = True,
     ) -> OffPolicyAlgorithm:
 
+<<<<<<< HEAD
         return super(DDPG, self).learn(
+=======
+        return super().learn(
+>>>>>>> upstream/master
             total_timesteps=total_timesteps,
             callback=callback,
             log_interval=log_interval,

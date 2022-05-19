@@ -39,7 +39,10 @@ class DummyVecEnv(VecEnv):
         self.actions = actions
 
     def step_wait(self) -> VecEnvStepReturn:
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
         for env_idx in range(self.num_envs):
             obs, self.buf_rews[env_idx], self.buf_dones[env_idx], self.buf_infos[env_idx] = self.envs[env_idx].step(
                 self.actions[env_idx]
@@ -52,7 +55,13 @@ class DummyVecEnv(VecEnv):
         return (self._obs_from_buf(), np.copy(self.buf_rews), np.copy(self.buf_dones), deepcopy(self.buf_infos))
 
     def seed(self, seed: Optional[int] = None) -> List[Union[None, int]]:
+<<<<<<< HEAD
         seeds = list()
+=======
+        if seed is None:
+            seed = np.random.randint(0, 2**32 - 1)
+        seeds = []
+>>>>>>> upstream/master
         for idx, env in enumerate(self.envs):
             seeds.append(env.seed(seed + idx))
         return seeds

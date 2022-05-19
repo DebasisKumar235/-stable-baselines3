@@ -17,7 +17,11 @@ from stable_baselines3.common.env_util import is_wrapped
 from stable_baselines3.common.logger import Logger
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.noise import ActionNoise
+<<<<<<< HEAD
 from stable_baselines3.common.policies import BasePolicy, get_policy_from_name
+=======
+from stable_baselines3.common.policies import BasePolicy
+>>>>>>> upstream/master
 from stable_baselines3.common.preprocessing import check_for_nested_spaces, is_image_space, is_image_space_channels_first
 from stable_baselines3.common.save_util import load_from_zip_file, recursive_getattr, recursive_setattr, save_to_zip_file
 from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, Schedule
@@ -60,7 +64,10 @@ class BaseAlgorithm(ABC):
     :param policy: Policy object
     :param env: The environment to learn from
                 (if registered in Gym, can be str. Can be None for loading trained models)
+<<<<<<< HEAD
     :param policy_base: The base policy used by this method
+=======
+>>>>>>> upstream/master
     :param learning_rate: learning rate for the optimizer,
         it can be a function of the current progress remaining (from 1 to 0)
     :param policy_kwargs: Additional arguments to be passed to the policy on creation
@@ -83,11 +90,20 @@ class BaseAlgorithm(ABC):
     :param supported_action_spaces: The action spaces supported by the algorithm.
     """
 
+<<<<<<< HEAD
+=======
+    # Policy aliases (see _get_policy_from_name())
+    policy_aliases: Dict[str, Type[BasePolicy]] = {}
+
+>>>>>>> upstream/master
     def __init__(
         self,
         policy: Type[BasePolicy],
         env: Union[GymEnv, str, None],
+<<<<<<< HEAD
         policy_base: Type[BasePolicy],
+=======
+>>>>>>> upstream/master
         learning_rate: Union[float, Schedule],
         policy_kwargs: Optional[Dict[str, Any]] = None,
         tensorboard_log: Optional[str] = None,
@@ -101,9 +117,14 @@ class BaseAlgorithm(ABC):
         sde_sample_freq: int = -1,
         supported_action_spaces: Optional[Tuple[gym.spaces.Space, ...]] = None,
     ):
+<<<<<<< HEAD
 
         if isinstance(policy, str) and policy_base is not None:
             self.policy_class = get_policy_from_name(policy_base, policy)
+=======
+        if isinstance(policy, str):
+            self.policy_class = self._get_policy_from_name(policy)
+>>>>>>> upstream/master
         else:
             self.policy_class = policy
 
@@ -209,11 +230,14 @@ class BaseAlgorithm(ABC):
         # Make sure that dict-spaces are not nested (not supported)
         check_for_nested_spaces(env.observation_space)
 
+<<<<<<< HEAD
         if isinstance(env.observation_space, gym.spaces.Dict):
             for space in env.observation_space.spaces.values():
                 if isinstance(space, gym.spaces.Dict):
                     raise ValueError("Nested observation spaces are not supported (Dict spaces inside Dict space).")
 
+=======
+>>>>>>> upstream/master
         if not is_vecenv_wrapped(env, VecTransposeImage):
             wrap_with_vectranspose = False
             if isinstance(env.observation_space, gym.spaces.Dict):
@@ -325,6 +349,26 @@ class BaseAlgorithm(ABC):
             "_custom_logger",
         ]
 
+<<<<<<< HEAD
+=======
+    def _get_policy_from_name(self, policy_name: str) -> Type[BasePolicy]:
+        """
+        Get a policy class from its name representation.
+
+        The goal here is to standardize policy naming, e.g.
+        all algorithms can call upon "MlpPolicy" or "CnnPolicy",
+        and they receive respective policies that work for them.
+
+        :param policy_name: Alias of the policy
+        :return: A policy class (type)
+        """
+
+        if policy_name in self.policy_aliases:
+            return self.policy_aliases[policy_name]
+        else:
+            raise ValueError(f"Policy {policy_name} unknown")
+
+>>>>>>> upstream/master
     def _get_torch_save_params(self) -> Tuple[List[str], List[str]]:
         """
         Get the name of the torch variables that will be saved with
@@ -426,7 +470,10 @@ class BaseAlgorithm(ABC):
 
         # Avoid resetting the environment when calling ``.learn()`` consecutive times
         if reset_num_timesteps or self._last_obs is None:
+<<<<<<< HEAD
             print( 'Stable-Reset' )
+=======
+>>>>>>> upstream/master
             self._last_obs = self.env.reset()  # pytype: disable=annotation-type-mismatch
             self._last_episode_starts = np.ones((self.env.num_envs,), dtype=bool)
             # Retrieve unnormalized observation for saving into the buffer

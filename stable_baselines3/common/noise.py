@@ -11,7 +11,11 @@ class ActionNoise(ABC):
     """
 
     def __init__(self):
+<<<<<<< HEAD
         super(ActionNoise, self).__init__()
+=======
+        super().__init__()
+>>>>>>> upstream/master
 
     def reset(self) -> None:
         """
@@ -35,7 +39,11 @@ class NormalActionNoise(ActionNoise):
     def __init__(self, mean: np.ndarray, sigma: np.ndarray):
         self._mu = mean
         self._sigma = sigma
+<<<<<<< HEAD
         super(NormalActionNoise, self).__init__()
+=======
+        super().__init__()
+>>>>>>> upstream/master
 
     def __call__(self) -> np.ndarray:
         return np.random.normal(self._mu, self._sigma)
@@ -72,7 +80,11 @@ class OrnsteinUhlenbeckActionNoise(ActionNoise):
         self.initial_noise = initial_noise
         self.noise_prev = np.zeros_like(self._mu)
         self.reset()
+<<<<<<< HEAD
         super(OrnsteinUhlenbeckActionNoise, self).__init__()
+=======
+        super().__init__()
+>>>>>>> upstream/master
 
     def __call__(self) -> np.ndarray:
         noise = (

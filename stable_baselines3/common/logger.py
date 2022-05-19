@@ -17,6 +17,10 @@ try:
 except ImportError:
     SummaryWriter = None
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 DEBUG = 10
 INFO = 20
 WARN = 30
@@ -24,7 +28,11 @@ ERROR = 40
 DISABLED = 50
 
 
+<<<<<<< HEAD
 class Video(object):
+=======
+class Video:
+>>>>>>> upstream/master
     """
     Video data class storing the video frames and the frame per seconds
 
@@ -37,7 +45,11 @@ class Video(object):
         self.fps = fps
 
 
+<<<<<<< HEAD
 class Figure(object):
+=======
+class Figure:
+>>>>>>> upstream/master
     """
     Figure data class storing a matplotlib figure and whether to close the figure after logging it
 
@@ -50,7 +62,11 @@ class Figure(object):
         self.close = close
 
 
+<<<<<<< HEAD
 class Image(object):
+=======
+class Image:
+>>>>>>> upstream/master
     """
     Image data class storing an image and data format
 
@@ -80,13 +96,21 @@ class FormatUnsupportedError(NotImplementedError):
             format_str = f"formats {', '.join(unsupported_formats)} are"
         else:
             format_str = f"format {unsupported_formats[0]} is"
+<<<<<<< HEAD
         super(FormatUnsupportedError, self).__init__(
+=======
+        super().__init__(
+>>>>>>> upstream/master
             f"The {format_str} not supported for the {value_description} value logged.\n"
             f"You can exclude formats via the `exclude` parameter of the logger's `record` function."
         )
 
 
+<<<<<<< HEAD
 class KVWriter(object):
+=======
+class KVWriter:
+>>>>>>> upstream/master
     """
     Key Value writer
     """
@@ -108,7 +132,11 @@ class KVWriter(object):
         raise NotImplementedError
 
 
+<<<<<<< HEAD
 class SeqWriter(object):
+=======
+class SeqWriter:
+>>>>>>> upstream/master
     """
     sequence writer
     """
@@ -246,12 +274,22 @@ def filter_excluded_keys(
 
 
 class JSONOutputFormat(KVWriter):
+<<<<<<< HEAD
     def __init__(self, filename: str):
         """
         log to a file, in the JSON format
 
         :param filename: the file to write the log to
         """
+=======
+    """
+    Log to a file, in the JSON format
+
+    :param filename: the file to write the log to
+    """
+
+    def __init__(self, filename: str):
+>>>>>>> upstream/master
         self.file = open(filename, "wt")
 
     def write(self, key_values: Dict[str, Any], key_excluded: Dict[str, Union[str, Tuple[str, ...]]], step: int = 0) -> None:
@@ -287,6 +325,7 @@ class JSONOutputFormat(KVWriter):
 
 
 class CSVOutputFormat(KVWriter):
+<<<<<<< HEAD
     def __init__(self, filename: str):
         """
         log to a file, in a CSV format
@@ -294,6 +333,15 @@ class CSVOutputFormat(KVWriter):
         :param filename: the file to write the log to
         """
 
+=======
+    """
+    Log to a file, in a CSV format
+
+    :param filename: the file to write the log to
+    """
+
+    def __init__(self, filename: str):
+>>>>>>> upstream/master
         self.file = open(filename, "w+t")
         self.keys = []
         self.separator = ","
@@ -351,12 +399,22 @@ class CSVOutputFormat(KVWriter):
 
 
 class TensorBoardOutputFormat(KVWriter):
+<<<<<<< HEAD
     def __init__(self, folder: str):
         """
         Dumps key/value pairs into TensorBoard's numeric format.
 
         :param folder: the folder to write the log to
         """
+=======
+    """
+    Dumps key/value pairs into TensorBoard's numeric format.
+
+    :param folder: the folder to write the log to
+    """
+
+    def __init__(self, folder: str):
+>>>>>>> upstream/master
         assert SummaryWriter is not None, "tensorboard is not installed, you can use " "pip install tensorboard to do so"
         self.writer = SummaryWriter(log_dir=folder)
 
@@ -427,7 +485,11 @@ def make_output_format(_format: str, log_dir: str, log_suffix: str = "") -> KVWr
 # ================================================================
 
 
+<<<<<<< HEAD
 class Logger(object):
+=======
+class Logger:
+>>>>>>> upstream/master
     """
     The logger class.
 
@@ -623,7 +685,11 @@ def read_json(filename: str) -> pandas.DataFrame:
     :return: the data in the json
     """
     data = []
+<<<<<<< HEAD
     with open(filename, "rt") as file_handler:
+=======
+    with open(filename) as file_handler:
+>>>>>>> upstream/master
         for line in file_handler:
             data.append(json.loads(line))
     return pandas.DataFrame(data)

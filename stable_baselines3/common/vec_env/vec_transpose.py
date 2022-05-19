@@ -26,7 +26,11 @@ class VecTransposeImage(VecEnvWrapper):
         self.skip = skip
         # Do nothing
         if skip:
+<<<<<<< HEAD
             super(VecTransposeImage, self).__init__(venv)
+=======
+            super().__init__(venv)
+>>>>>>> upstream/master
             return
 
         if isinstance(venv.observation_space, spaces.dict.Dict):
@@ -39,7 +43,11 @@ class VecTransposeImage(VecEnvWrapper):
                     observation_space.spaces[key] = self.transpose_space(space, key)
         else:
             observation_space = self.transpose_space(venv.observation_space)
+<<<<<<< HEAD
         super(VecTransposeImage, self).__init__(venv, observation_space=observation_space)
+=======
+        super().__init__(venv, observation_space=observation_space)
+>>>>>>> upstream/master
 
     @staticmethod
     def transpose_space(observation_space: spaces.Box, key: str = "") -> spaces.Box:

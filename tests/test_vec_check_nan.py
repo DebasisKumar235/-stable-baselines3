@@ -12,7 +12,11 @@ class NanAndInfEnv(gym.Env):
     metadata = {"render.modes": ["human"]}
 
     def __init__(self):
+<<<<<<< HEAD
         super(NanAndInfEnv, self).__init__()
+=======
+        super().__init__()
+>>>>>>> upstream/master
         self.action_space = spaces.Box(low=-np.inf, high=np.inf, shape=(1,), dtype=np.float64)
         self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(1,), dtype=np.float64)
 

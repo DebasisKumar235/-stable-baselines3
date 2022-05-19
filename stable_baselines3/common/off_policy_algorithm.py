@@ -5,7 +5,10 @@ import warnings
 from copy import deepcopy
 from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
+<<<<<<< HEAD
 import cv2
+=======
+>>>>>>> upstream/master
 import gym
 import numpy as np
 import torch as th
@@ -29,7 +32,10 @@ class OffPolicyAlgorithm(BaseAlgorithm):
     :param policy: Policy object
     :param env: The environment to learn from
                 (if registered in Gym, can be str. Can be None for loading trained models)
+<<<<<<< HEAD
     :param policy_base: The base policy used by this method
+=======
+>>>>>>> upstream/master
     :param learning_rate: learning rate for the optimizer,
         it can be a function of the current progress remaining (from 1 to 0)
     :param buffer_size: size of the replay buffer
@@ -77,7 +83,10 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         self,
         policy: Type[BasePolicy],
         env: Union[GymEnv, str],
+<<<<<<< HEAD
         policy_base: Type[BasePolicy],
+=======
+>>>>>>> upstream/master
         learning_rate: Union[float, Schedule],
         buffer_size: int = 1_000_000,  # 1e6
         learning_starts: int = 100,
@@ -105,10 +114,16 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         supported_action_spaces: Optional[Tuple[gym.spaces.Space, ...]] = None,
     ):
 
+<<<<<<< HEAD
         super(OffPolicyAlgorithm, self).__init__(
             policy=policy,
             env=env,
             policy_base=policy_base,
+=======
+        super().__init__(
+            policy=policy,
+            env=env,
+>>>>>>> upstream/master
             learning_rate=learning_rate,
             policy_kwargs=policy_kwargs,
             tensorboard_log=tensorboard_log,
@@ -331,7 +346,10 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         reset_num_timesteps: bool = True,
     ) -> "OffPolicyAlgorithm":
 
+<<<<<<< HEAD
         print( "Learn" )
+=======
+>>>>>>> upstream/master
         total_timesteps, callback = self._setup_learn(
             total_timesteps,
             eval_env,
@@ -365,9 +383,13 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                 gradient_steps = self.gradient_steps if self.gradient_steps >= 0 else rollout.episode_timesteps
                 # Special case when the user passes `gradient_steps=0`
                 if gradient_steps > 0:
+<<<<<<< HEAD
                     print( "Start Train" )
                     self.train(batch_size=self.batch_size, gradient_steps=gradient_steps)
                     print( "End Train" )
+=======
+                    self.train(batch_size=self.batch_size, gradient_steps=gradient_steps)
+>>>>>>> upstream/master
 
         callback.on_training_end()
 
@@ -572,6 +594,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         callback.on_rollout_start()
         continue_training = True
 
+<<<<<<< HEAD
         previous_episode_number = 0
         per_episodes_images = []
         per_episodes_rewards = []
@@ -599,6 +622,9 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                 #per_episodes_images = []
                 #per_episodes_rewards = []
 
+=======
+        while should_collect_more_steps(train_freq, num_collected_steps, num_collected_episodes):
+>>>>>>> upstream/master
             if self.use_sde and self.sde_sample_freq > 0 and num_collected_steps % self.sde_sample_freq == 0:
                 # Sample a new noise matrix
                 self.actor.reset_noise(env.num_envs)
@@ -608,18 +634,24 @@ class OffPolicyAlgorithm(BaseAlgorithm):
 
             # Rescale and perform action
             new_obs, rewards, dones, infos = env.step(actions)
+<<<<<<< HEAD
             #print( "----- step" )
             #per_episodes_images.append( new_obs[0] )
             #per_episodes_rewards.append( rewards )
 
             #print( "OffPolicy", new_obs.shape )
+=======
+>>>>>>> upstream/master
 
             self.num_timesteps += env.num_envs
             num_collected_steps += 1
 
             # Give access to local variables
             callback.update_locals(locals())
+<<<<<<< HEAD
             #print( "----- update_locals" )
+=======
+>>>>>>> upstream/master
             # Only stop training if return value is False, not when it is None.
             if callback.on_step() is False:
                 return RolloutReturn(num_collected_steps * env.num_envs, num_collected_episodes, continue_training=False)
@@ -651,7 +683,10 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                     # Log training infos
                     if log_interval is not None and self._episode_num % log_interval == 0:
                         self._dump_logs()
+<<<<<<< HEAD
             #print( "----- end" )
+=======
+>>>>>>> upstream/master
 
         callback.on_rollout_end()
 
