@@ -143,6 +143,8 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         # For gSDE only
         self.use_sde_at_warmup = use_sde_at_warmup
 
+        self.expert_replay_buffer = load_from_pkl("/Users/v/Documents/DonkeyRL/rl-baselines3-zoo/logs/replay_buffer.pkl", self.verbose)
+
     def _convert_train_freq(self) -> None:
         """
         Convert `train_freq` parameter (int or tuple)
@@ -340,6 +342,13 @@ class OffPolicyAlgorithm(BaseAlgorithm):
 
         callback.on_training_start(locals(), globals())
 
+
+        #print( "EXPERT_REPLAY_BUFFER=", len( self.expert_replay_buffer.get_all_data( env=self._vec_normalize_env ) ) )
+
+        print( "\n_________________Start EXPERT training...\n" )
+        self.expert_train(gradient_steps=100)
+        print( "\n_________________EXPERT training Finished.\n" )
+
         while self.num_timesteps < total_timesteps:
             rollout = self.collect_rollouts(
                 self.env,
@@ -360,9 +369,9 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                 gradient_steps = self.gradient_steps if self.gradient_steps >= 0 else rollout.episode_timesteps
                 # Special case when the user passes `gradient_steps=0`
                 if gradient_steps > 0:
-                    print( "Start training..." )
+                    print( "\n_________________Start training...\n" )
                     self.train(batch_size=self.batch_size, gradient_steps=gradient_steps)
-                    print( "Finished training." )
+                    print( "\n_________________Finished training.\n" )
 
         callback.on_training_end()
 
@@ -433,6 +442,8 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         if len(self.ep_info_buffer) > 0 and len(self.ep_info_buffer[0]) > 0:
             self.logger.record("rollout/ep_rew_mean", safe_mean([ep_info["r"] for ep_info in self.ep_info_buffer]))
             self.logger.record("rollout/ep_len_mean", safe_mean([ep_info["l"] for ep_info in self.ep_info_buffer]))
+
+        #self.logger.record("rollout/distance", self.ep_info_buffer[-1]["distance"] )         
         self.logger.record("time/fps", fps)
         self.logger.record("time/time_elapsed", int(time_elapsed), exclude="tensorboard")
         self.logger.record("time/total_timesteps", self.num_timesteps, exclude="tensorboard")
@@ -589,7 +600,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
 
             # Retrieve reward and episode length if using Monitor wrapper
             self._update_info_buffer(infos, dones)
-
+            
             # Store data in replay buffer (normalized action and unnormalized observation)
             self._store_transition(replay_buffer, buffer_actions, new_obs, rewards, dones, infos)
 

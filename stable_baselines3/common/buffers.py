@@ -181,6 +181,8 @@ class ReplayBuffer(BaseBuffer):
     ):
         super().__init__(buffer_size, observation_space, action_space, device, n_envs=n_envs)
 
+        self.all_failed_transitions = []
+
         # Adjust buffer size
         self.buffer_size = max(buffer_size // n_envs, 1)
 
@@ -231,7 +233,7 @@ class ReplayBuffer(BaseBuffer):
         done: np.ndarray,
         infos: List[Dict[str, Any]],
     ) -> None:
-
+        
         # Reshape needed when using multiple envs with discrete observations
         # as numpy cannot broadcast (n_discrete,) to (n_discrete, 1)
         if isinstance(self.observation_space, spaces.Discrete):
@@ -257,10 +259,22 @@ class ReplayBuffer(BaseBuffer):
         if self.handle_timeout_termination:
             self.timeouts[self.pos] = np.array([info.get("TimeLimit.truncated", False) for info in infos])
 
+        if done[0]:
+            print( self.all_failed_transitions )
+            self.all_failed_transitions.append(self.pos) 
+        elif self.pos in self.all_failed_transitions:
+            self.all_failed_transitions.remove( self.pos )
+
         self.pos += 1
         if self.pos == self.buffer_size:
             self.full = True
             self.pos = 0
+
+    def get_all_data(self, env: Optional[VecNormalize] = None) -> ReplayBufferSamples:
+                
+        batch_inds = range( 0, self.buffer_size if self.full else self.pos )
+
+        return self._get_samples(batch_inds, env=env)
 
     def sample(self, batch_size: int, env: Optional[VecNormalize] = None) -> ReplayBufferSamples:
         """
@@ -282,6 +296,9 @@ class ReplayBuffer(BaseBuffer):
             batch_inds = (np.random.randint(1, self.buffer_size, size=batch_size) + self.pos) % self.buffer_size
         else:
             batch_inds = np.random.randint(0, self.pos, size=batch_size)
+        
+        batch_inds += self.all_failed_transitions
+
         return self._get_samples(batch_inds, env=env)
 
     def _get_samples(self, batch_inds: np.ndarray, env: Optional[VecNormalize] = None) -> ReplayBufferSamples:
@@ -504,6 +521,7 @@ class DictReplayBuffer(ReplayBuffer):
     ):
         super(ReplayBuffer, self).__init__(buffer_size, observation_space, action_space, device, n_envs=n_envs)
 
+        print( self.obs_shape )
         assert isinstance(self.obs_shape, dict), "DictReplayBuffer must be used with Dict obs space only"
         self.buffer_size = max(buffer_size // n_envs, 1)
 
