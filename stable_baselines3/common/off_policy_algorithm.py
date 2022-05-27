@@ -345,9 +345,9 @@ class OffPolicyAlgorithm(BaseAlgorithm):
 
         #print( "EXPERT_REPLAY_BUFFER=", len( self.expert_replay_buffer.get_all_data( env=self._vec_normalize_env ) ) )
 
-        print( "\n_________________Start EXPERT training...\n" )
-        self.expert_train(gradient_steps=100)
-        print( "\n_________________EXPERT training Finished.\n" )
+        # print( "\n_________________Start EXPERT training...\n" )
+        # self.expert_train(gradient_steps=32)
+        # print( "\n_________________EXPERT training Finished.\n" )
 
         while self.num_timesteps < total_timesteps:
             rollout = self.collect_rollouts(
@@ -373,11 +373,18 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                     self.train(batch_size=self.batch_size, gradient_steps=gradient_steps)
                     print( "\n_________________Finished training.\n" )
 
+                    # print( "\n_________________Start EXPERT training...\n" )
+                    # self.expert_train(gradient_steps=1)
+                    # print( "\n_________________EXPERT training Finished.\n" )
+
+
         callback.on_training_end()
 
         return self
 
     def train(self, gradient_steps: int, batch_size: int) -> None:
+        print( "OffPolicy train....\n\n" )
+        
         """
         Sample the replay buffer and do the updates
         (gradient descent and update target networks)

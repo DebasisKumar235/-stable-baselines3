@@ -62,6 +62,7 @@ class VecVideoRecorder(VecEnvWrapper):
 
         self.recording = False
         self.recorded_frames = 0
+        self.outdated_videos = []
 
     def reset(self) -> VecEnvObs:
         obs = self.venv.reset()
@@ -93,7 +94,14 @@ class VecVideoRecorder(VecEnvWrapper):
             self.recorded_frames += 1
             if self.recorded_frames > self.video_length:
                 print(f"Saving video to {self.video_recorder.path}")
+                self.outdated_videos.append(self.video_recorder.path)
                 self.close_video_recorder()
+
+                if len( self.outdated_videos ) > 2:
+                    file_to_delete = self.outdated_videos.pop(0)
+                    os.remove( file_to_delete )
+                    os.remove( os.path.splitext( file_to_delete )[0] + '.meta.json' )
+
         elif self._video_enabled():
             self.start_video_recorder()
 

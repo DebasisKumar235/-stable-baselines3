@@ -356,6 +356,7 @@ def load_from_pkl(path: Union[str, pathlib.Path, io.BufferedIOBase], verbose: in
     """
     with open_path(path, "r", verbose=verbose, suffix="pkl") as file_handler:
         return pickle.load(file_handler)
+        
 
 
 def load_from_zip_file(

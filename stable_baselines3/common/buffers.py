@@ -105,6 +105,8 @@ class BaseBuffer(ABC):
             to normalize the observations/rewards when sampling
         :return:
         """
+
+        print("BaseBuffer sample....................")
         upper_bound = self.buffer_size if self.full else self.pos
         batch_inds = np.random.randint(0, upper_bound, size=batch_size)
         return self._get_samples(batch_inds, env=env)
@@ -181,7 +183,7 @@ class ReplayBuffer(BaseBuffer):
     ):
         super().__init__(buffer_size, observation_space, action_space, device, n_envs=n_envs)
 
-        self.all_failed_transitions = []
+        self.all_failed_transitions = {}
 
         # Adjust buffer size
         self.buffer_size = max(buffer_size // n_envs, 1)
@@ -260,11 +262,23 @@ class ReplayBuffer(BaseBuffer):
             self.timeouts[self.pos] = np.array([info.get("TimeLimit.truncated", False) for info in infos])
 
         if done[0]:
-            print( self.all_failed_transitions )
-            self.all_failed_transitions.append(self.pos) 
-        elif self.pos in self.all_failed_transitions:
-            self.all_failed_transitions.remove( self.pos )
+            neg_rewards = []
+            for i in reversed( range( self.pos - 3, self.pos ) ):
+                self.rewards[i][0] = -10
+                neg_rewards.append(i)
 
+            self.all_failed_transitions[ self.pos ] = neg_rewards
+
+            all_keys = list( self.all_failed_transitions.keys() )
+            for k in all_keys:
+                rew = self.rewards[k][0]
+                if rew == -10 or rew > 0:
+                    print( f"Del {k}" )
+                    del self.all_failed_transitions[k]
+
+            print( self.all_failed_transitions )
+
+                
         self.pos += 1
         if self.pos == self.buffer_size:
             self.full = True
@@ -288,8 +302,15 @@ class ReplayBuffer(BaseBuffer):
             to normalize the observations/rewards when sampling
         :return:
         """
-        if not self.optimize_memory_usage:
-            return super().sample(batch_size=batch_size, env=env)
+
+
+        #print("ReplayBuffer sample......................")
+
+        # d = []
+        # i = d[1]
+
+        # if not self.optimize_memory_usage:
+        #     return super().sample(batch_size=batch_size, env=env)
         # Do not sample the element with index `self.pos` as the transitions is invalid
         # (we use only one array to store `obs` and `next_obs`)
         if self.full:
@@ -297,7 +318,14 @@ class ReplayBuffer(BaseBuffer):
         else:
             batch_inds = np.random.randint(0, self.pos, size=batch_size)
         
-        batch_inds += self.all_failed_transitions
+        all_the_array = []
+        for k in self.all_failed_transitions:
+            for elem in self.all_failed_transitions[k]:
+                all_the_array.append( elem )
+        
+        batch_inds = np.append( batch_inds, all_the_array )
+
+        print( f'batch_inds={batch_inds.shape}, {len(all_the_array)}, {batch_size}')
 
         return self._get_samples(batch_inds, env=env)
 
@@ -620,6 +648,7 @@ class DictReplayBuffer(ReplayBuffer):
             to normalize the observations/rewards when sampling
         :return:
         """
+        print( "DictReplayBuffer sample............................." ) 
         return super(ReplayBuffer, self).sample(batch_size=batch_size, env=env)
 
     def _get_samples(self, batch_inds: np.ndarray, env: Optional[VecNormalize] = None) -> DictReplayBufferSamples:
