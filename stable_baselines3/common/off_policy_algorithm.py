@@ -143,7 +143,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         # For gSDE only
         self.use_sde_at_warmup = use_sde_at_warmup
 
-        self.expert_replay_buffer = load_from_pkl("/Users/v/Documents/DonkeyRL/rl-baselines3-zoo/logs/replay_buffer.pkl", self.verbose)
+        self.expert_replay_buffer = None # load_from_pkl("/home/donkeysim/Desktop/donkeysim/replay_buffer.pkl", self.verbose)
 
     def _convert_train_freq(self) -> None:
         """

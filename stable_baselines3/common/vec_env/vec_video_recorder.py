@@ -99,8 +99,11 @@ class VecVideoRecorder(VecEnvWrapper):
 
                 if len( self.outdated_videos ) > 2:
                     file_to_delete = self.outdated_videos.pop(0)
-                    os.remove( file_to_delete )
-                    os.remove( os.path.splitext( file_to_delete )[0] + '.meta.json' )
+                    try:
+                        os.remove( file_to_delete )
+                        os.remove( os.path.splitext( file_to_delete )[0] + '.meta.json' )
+                    except:
+                        pass
 
         elif self._video_enabled():
             self.start_video_recorder()

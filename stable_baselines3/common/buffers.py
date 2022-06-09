@@ -262,12 +262,15 @@ class ReplayBuffer(BaseBuffer):
             self.timeouts[self.pos] = np.array([info.get("TimeLimit.truncated", False) for info in infos])
 
         if done[0]:
-            neg_rewards = []
-            for i in reversed( range( self.pos - 3, self.pos ) ):
-                self.rewards[i][0] = -10
-                neg_rewards.append(i)
+            if reward[0] < 0:            
+                neg_rewards = []
+                for i in reversed( range( self.pos - 3, self.pos ) ):
+                    self.rewards[i][0] = -10
+                    neg_rewards.append(i)
 
-            self.all_failed_transitions[ self.pos ] = neg_rewards
+                self.all_failed_transitions[ self.pos ] = neg_rewards
+            else:
+                print( "Skipped trajectory....................2")
 
             all_keys = list( self.all_failed_transitions.keys() )
             for k in all_keys:
@@ -276,7 +279,7 @@ class ReplayBuffer(BaseBuffer):
                     print( f"Del {k}" )
                     del self.all_failed_transitions[k]
 
-            print( self.all_failed_transitions )
+            print( self.all_failed_transitions.keys() )
 
                 
         self.pos += 1
@@ -303,12 +306,6 @@ class ReplayBuffer(BaseBuffer):
         :return:
         """
 
-
-        #print("ReplayBuffer sample......................")
-
-        # d = []
-        # i = d[1]
-
         # if not self.optimize_memory_usage:
         #     return super().sample(batch_size=batch_size, env=env)
         # Do not sample the element with index `self.pos` as the transitions is invalid
@@ -323,9 +320,10 @@ class ReplayBuffer(BaseBuffer):
             for elem in self.all_failed_transitions[k]:
                 all_the_array.append( elem )
         
-        batch_inds = np.append( batch_inds, all_the_array )
+        if all_the_array:
+            batch_inds = np.append( batch_inds, all_the_array )
 
-        print( f'batch_inds={batch_inds.shape}, {len(all_the_array)}, {batch_size}')
+        #print( f'batch_inds={batch_inds.shape}, {len(all_the_array)}, {batch_size}')
 
         return self._get_samples(batch_inds, env=env)
 
